@@ -1,11 +1,12 @@
 # prediction_of_CO_sites
 Guide to using Wytzes scripts along with those of Sevgin
-Dependencies
+
+Dependencies:
 Bedtools v2.92.2
 FIMO obtained from the MEME suite
 Samtools 1.7
 RepeatMasker version open-4.0.9
-Python 3.6.8 with packages:nan
+Python 3.6.8 with packages:
 	Numpycd 
 	Pandas
 	Subprocess
