@@ -1,12 +1,10 @@
-# prediction_of_CO_sites
 Guide to using Wytzes scripts along with those of Sevgin
-
-Dependencies:
+Dependencies
 Bedtools v2.92.2
 FIMO obtained from the MEME suite
 Samtools 1.7
 RepeatMasker version open-4.0.9
-Python 3.6.8 with packages:
+Python 3.6.8 with packages:nan
 	Numpycd 
 	Pandas
 	Subprocess
@@ -33,7 +31,6 @@ Macro_extract_gene.sh: location to extract_gene_content.py script should be adde
 Macro_fimo_process.sh: location to process_fimo.py should be added
 Macro_gene_dense.sh: location to neg_gene_dense.py should be added 
 Macro_annotate_repeat.sh: location to extract_repeat.py should be added
-
 Annotation of features
 To make my scripts more easily scalable while also being able to check during the annotation of features I worked with the following format. 
 All studies with their annotation files were put in folders like [research_folder]/[species]/[study].
@@ -73,7 +70,17 @@ bash macro_find_closest_TSS.sh
 bash macro_extract_gene.sh
 bash macro_fimo.sh
 bash macro_fimo_process.sh
+bash macro_annotate_repeat.sh 2x
+This last command will probably spew some naming convention errors by bedtools. These do not cause an issue. Do run it two times to make sure the positive and negative regions contain the same repeats
 bash macro_FUSION.sh
 
 Features now have been annotated and are in the [research folder]/[species]/[study]/.
-As positive.features.txt and negative.features.txt. On these features one ca now do machine learning.
+As positive.features.txt and negative.features.txt. On these features one can now do machine learning.
+
+I always used my macro_copy_learned.sh script to copy the positive and negative features of all datasets into the ‘machine learning’ same folder, this also changed their names to [species].[author].pos.feat and [species].[author].neg.feat. Then inside this machine learning folder I created the same format as the research folder so [machine learning folder]/[species]/[author].
+The main scripts I used for all RF machine learning were macro_machinelearner_CV.sh, machinelearner_CV.r and cross_validation_functions.r. Macro_machinelearner_CV.sh was written to run machinelearner_CV.r on every [species].[author].[pos/neg].feat. It does need [species].[author] hardcoded as a list of space delimited input for the for loop.  And has to be ran inside your [machine learning folder]. 
+To only keep the intersecting columns, so columns that appear in every dataset, use the intersecting_cols.py script which should be run inside the [machine learning folder]. It has  a hardcoded output location, ‘OUTPUT_LOC’, and the ‘files_dic’ should contain all species as keys and a list of authors for every species key as values. 
+The same hardcoding has to be done for super_cols.py, this script reads all features all the datasets have and then provides a 0 for every region which does not have the feature annotated but other studies did contain this feature.
+To split out the results of the all-species model into results per species or results per author 
+
+
